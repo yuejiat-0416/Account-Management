@@ -1,10 +1,13 @@
 {% extends "account/base.html" %}
+{% load bootstrap5 %}
+
 
 {% load i18n %}
 
 {% block head_title %}{% trans "Sign Out" %}{% endblock %}
+{% block title %}{% trans "Sign Out" %}{% endblock %}
 
-{% block content %}
+{% block accounts_content %}
 <h1>{% trans "Sign Out" %}</h1>
 
 <p>{% trans 'Are you sure you want to sign out?' %}</p>
@@ -12,10 +15,10 @@
 <form method="post" action="{% url 'account_logout' %}">
   {% csrf_token %}
   {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
   {% endif %}
-  
-  <button class="waves-effect waves-light btn" type="submit"><i class="material-icons left"></i>{% trans "Sign Out" %}</button>
+  {% trans "Sign Out" as button_text %}
+  {% bootstrap_button button_text button_type="submit" extra_classes="secondaryAction w-100" %}
 </form>
 
 

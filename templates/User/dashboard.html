@@ -1,19 +1,39 @@
-{% load static %}
+{% extends "account/base.html" %}
+{% load i18n %}
+{% load bootstrap5 %}
+
 <!DOCTYPE html>
 <html>
 
-<head>
-  <!-- Existing head content... -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-</head>
-
 <body>
   {% block content %}
-  <div class="container">
+  <div class="container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; text-align: center;">
     <h1 class="header">Dashboard</h1>
     <h5>Hello, {{ request.user.username }}</h5>
     <p>Welcome to your Page</p>
-    <a class="waves-effect waves-light btn" href="{% url 'account_logout' %}"><i class="material-icons left"></i>Logout</a>
+    <div style="display: flex; flex-direction: column; width: 200px;">
+
+      <!-- Logout Button -->
+      <form method="post" action="{% url 'account_logout' %}" style="margin-bottom: 10px;">
+        {% csrf_token %}
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+        {% endif %}
+        {% trans "Logout" as button_text %}
+        {% bootstrap_button button_text button_type="submit" extra_classes="secondaryAction w-100" %}
+      </form>
+    
+      <!-- Change Email Button -->
+      <form method="post" action="{% url 'account_email' %}">
+        {% csrf_token %}
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+        {% endif %}
+        {% trans "Change Email" as button_text %}
+        {% bootstrap_button button_text button_type="submit" extra_classes="secondaryAction w-100" %}
+      </form>
+    
+    </div>
   </div>
   {% endblock %}
 </body>
