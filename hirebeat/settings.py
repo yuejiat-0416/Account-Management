@@ -43,12 +43,15 @@ INSTALLED_APPS = [
 
     # my app
     'User',
+    'Account',
     'bootstrap5',
     # allauth
     'django.contrib.sites',
     'allauth',
     'allauth.account',
-    'allauth.socialaccount', 
+    'allauth.socialaccount',
+    
+    'invitations',
     
 ]
 
@@ -176,3 +179,10 @@ ACCOUNT_FORMS = {
 
 
 AUTH_USER_MODEL = 'User.CustomUser'
+
+
+# Settings for email-invitation
+ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
+
+# INVITATION_MODEL = 'Account.models.TeamInvitation'
+# INVITE_FORM = 'Account.forms.InviteForm'
