@@ -11,7 +11,6 @@ from Account.models import UserAccount
 from Account.models import TeamInvitation, UserAccount
 
 
-
 class CustomRegistrationView(SignupView):
     def get(self, request, *args, **kwargs):
         print("Custom registration view accessed via GET")
@@ -20,20 +19,17 @@ class CustomRegistrationView(SignupView):
     def post(self, request, *args, **kwargs):
         print("Custom registration view accessed via POST")
         return super().post(request, *args, **kwargs)
+    
     def form_valid(self, form):
         # Use the original behavior of the registration to save the user
         response = super().form_valid(form)
-
         # Check if the registration happened through an invitation link
         email = form.cleaned_data.get("email")
         try:
             invitation = TeamInvitation.objects.get(invited_email=email, is_accepted=False)
 
             # Create a UserAccount object linking the new user to the company
-            UserAccount.objects.create(
-                user=self.user,
-                account=invitation.account
-            )
+            UserAccount.objects.create(user = self.user, account = invitation.account)
 
             # Mark the invitation as used
             invitation.is_accepted = True
@@ -46,7 +42,8 @@ class CustomRegistrationView(SignupView):
         return response
 
     def get_success_url(self):
-        return reverse('account_login')
+        # default django allauth account login  
+        return reverse('account_login') 
 
 @login_required
 def dashboard(request):

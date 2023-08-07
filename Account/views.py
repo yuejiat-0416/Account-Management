@@ -1,15 +1,15 @@
-from typing import Any, Dict
-from django.forms.models import BaseModelForm
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
+# django
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.conf import settings
+from django.contrib import messages
+from django.views.generic import FormView
+
+# Account model
 from .models import Account, UserAccount, TeamInvitation
-from django.views.generic import FormView, View
-from .forms import CustomInviteForm
+
+# django invitations
 from invitations.forms import InviteForm
 from invitations.utils import get_invitation_model
 
@@ -24,19 +24,14 @@ class CreateAccountView(CreateView):
     # form_class = AccountForm
     
     def form_valid(self, form):
-
         self.object = form.save()
-        user_account = UserAccount.objects.create(
-            user=self.request.user,
-            account=self.object
-        )
+        user_account = UserAccount.objects.create(user = self.request.user, account = self.object)
         user_account.save()
+        messages.success(self.request, "Successfully Create Company!")
         return super().form_valid(form)
     
     def get_success_url(self) -> str:
         return reverse_lazy('homepage')
-
-
 
 # Description: Send email invitation
 class SendInviteView(FormView):
@@ -65,7 +60,7 @@ class SendInviteView(FormView):
                 account=user_account.account)
             team_invitation.save()
 
-            invite = form.save(email)  # Save using the InviteForm's save method
+            invite = form.save(email) 
             invite.inviter = self.request.user
             invite.save()
             invite.send_invitation(self.request)
@@ -74,10 +69,11 @@ class SendInviteView(FormView):
             print('SendInviteView Error: ' + str(e))
             return self.form_invalid(form)
         
-        # Return appropriate response after sending invitation
+        messages.success(self.request, "Successfully Invite a New User!")
         return super().form_valid(form)
-
-
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
+    
+    def get_success_url(self) -> str:
+        return reverse_lazy('homepage')
