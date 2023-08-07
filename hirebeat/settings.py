@@ -43,15 +43,12 @@ INSTALLED_APPS = [
 
     # my app
     'User',
-    'Account',
     'bootstrap5',
     # allauth
     'django.contrib.sites',
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',
-    
-    'invitations',
+    'allauth.socialaccount', 
     
 ]
 
@@ -109,8 +106,8 @@ DATABASES = {
         'NAME': 'hiredatabase',
         'USER': 'hirebeatdatabase',
         'PASSWORD': '1234567',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'HOST': 'localhost', 
+        'PORT': '5432', 
     }
 }
 
@@ -145,12 +142,16 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/4.1/howto/static-files/
+
+
+STATIC_URL = '/static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -192,11 +193,3 @@ ACCOUNT_FORMS = {
 
 
 AUTH_USER_MODEL = 'User.CustomUser'
-
-
-# Settings for email-invitation
-ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
-
-# INVITATION_MODEL = 'Account.models.TeamInvitation'
-# INVITE_FORM = 'Account.forms.InviteForm'
-BASE_URL = 'http://localhost:8000'

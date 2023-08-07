@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import dashboard, CustomRegistrationView
+from .views import dashboard
 
 urlpatterns = [
     path('dashboard', dashboard, name='homepage'),
