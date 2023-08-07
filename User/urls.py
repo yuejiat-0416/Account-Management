@@ -1,7 +1,6 @@
 from django.urls import path
-from .views import dashboard, CustomRegistrationView
+from .views import dashboard
 
 urlpatterns = [
-    path('', dashboard, name='homepage'),
-    path('accounts/signup/', CustomRegistrationView.as_view(), name='custom_signup'),
+    path('dashboard', dashboard, name='homepage'),
 ]

@@ -43,15 +43,12 @@ INSTALLED_APPS = [
 
     # my app
     'User',
-    'Account',
     'bootstrap5',
     # allauth
     'django.contrib.sites',
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',
-    
-    'invitations',
+    'allauth.socialaccount', 
     
 ]
 
@@ -66,6 +63,18 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'hirebeat.urls'
+
+
+
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
+
+
+
+
 
 TEMPLATES = [
     {
@@ -85,7 +94,7 @@ TEMPLATES = [
     },
 ]
 # looking for static files
-STATICFILES_DIRS = [BASE_DIR / "assets"]
+# STATICFILES_DIRS = [BASE_DIR / "assets"]
 
 
 WSGI_APPLICATION = 'hirebeat.wsgi.application'
@@ -97,8 +106,8 @@ DATABASES = {
         'NAME': 'hiredatabase',
         'USER': 'hirebeatdatabase',
         'PASSWORD': '1234567',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'HOST': 'localhost', 
+        'PORT': '5432', 
     }
 }
 
@@ -133,8 +142,12 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/'
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/4.1/howto/static-files/
+
+
+STATIC_URL = '/static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -143,6 +156,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'homepage'
 LOGIN_URL = 'account_login'
 LOGOUT_URL = 'account_logout'
+LOGOUT_REDIRECT_URL = 'account_login'
 
 SITE_ID = 1
 
@@ -175,11 +189,3 @@ ACCOUNT_FORMS = {
 
 
 AUTH_USER_MODEL = 'User.CustomUser'
-
-
-# Settings for email-invitation
-ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
-
-# INVITATION_MODEL = 'Account.models.TeamInvitation'
-# INVITE_FORM = 'Account.forms.InviteForm'
-BASE_URL = 'http://localhost:8000'
