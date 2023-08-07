@@ -43,12 +43,19 @@ INSTALLED_APPS = [
 
     # my app
     'User',
+    'Account',
+    
+    # frontend style
     'bootstrap5',
-    # allauth
+
+    # django-allauth
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount', 
+    
+    # django-invitations
+    'invitations',
     
 ]
 
@@ -144,14 +151,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
-
-STATIC_URL = 'static/'
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
-
-
 STATIC_URL = '/static/'
+# Duplicated?
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -193,3 +196,11 @@ ACCOUNT_FORMS = {
 
 
 AUTH_USER_MODEL = 'User.CustomUser'
+
+
+# Settings for email-invitation
+ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
+
+# INVITATION_MODEL = 'Account.models.TeamInvitation'
+# INVITE_FORM = 'Account.forms.InviteForm'
+BASE_URL = 'http://localhost:8000'
