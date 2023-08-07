@@ -94,9 +94,9 @@ WSGI_APPLICATION = 'hirebeat.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'hb2023',
-        'USER': 'hbuser',
-        'PASSWORD': '123456',
+        'NAME': 'hiredatabase',
+        'USER': 'hirebeatdatabase',
+        'PASSWORD': '1234567',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -132,10 +132,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
 
@@ -186,3 +182,4 @@ ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
 
 # INVITATION_MODEL = 'Account.models.TeamInvitation'
 # INVITE_FORM = 'Account.forms.InviteForm'
+BASE_URL = 'http://localhost:8000'

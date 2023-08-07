@@ -10,9 +10,26 @@
   <div class="container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; text-align: center;">
     <h1 class="header">Dashboard</h1>
     <h5>Hello, {{ request.user.username }}</h5>
+    {% if company %}
+    <h6>Company: {{ company }}</h6>
+    {% endif %}
     <p>Welcome to your Page</p>
     <div style="display: flex; flex-direction: column; width: 200px;">
 
+    <!-- Conditional Display for Create/Invite Button -->
+
+    <!-- Create Button -->
+      <form method="post" action="{% url 'create' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary w-100">Create</button>
+      </form>
+      <p></p>
+        <!-- Invite Button -->
+      <form method="post" action="{% url 'send-invite' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-secondary w-100">Invite</button>
+      </form>
+      <p></p>
       <!-- Logout Button -->
       <form method="post" action="{% url 'account_logout' %}" style="margin-bottom: 10px;">
         {% csrf_token %}

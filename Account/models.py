@@ -5,7 +5,7 @@ from django.db import models
 from User.models import CustomUser
 from django.utils.crypto import get_random_string
 from django.contrib.sites.shortcuts import get_current_site
-
+import uuid
 
 # Description: Stores account-level (aka company-level) details, such as the account name, date created, account owner (link to Auth_User), etc.
 class Account(models.Model):
@@ -23,17 +23,14 @@ class Account(models.Model):
         ('1001+', '1001+'),
     ]
 
-    company_name = models.CharField(max_length=255, null=True, blank=True)
     company_email = models.EmailField(max_length=255, null=True, blank=True)
-    account_status = models.CharField(
-        max_length=255, choices=ACCOUNT_STATUS_CHOICES)
+    company_name = models.CharField(max_length=255, null=True, blank=True)
+    account_status = models.CharField(max_length=255, choices=ACCOUNT_STATUS_CHOICES)
     company_summary = models.TextField(null=True, blank=True)
     company_industry = models.CharField(max_length=255, null=True, blank=True)
-    company_size_range = models.CharField(
-        max_length=255, null=True, blank=True, choices=COMPANY_SIZE_RANGE_CHOICES)
+    company_size_range = models.CharField(max_length=255, null=True, blank=True, choices=COMPANY_SIZE_RANGE_CHOICES)
     company_website = models.URLField(max_length=255, null=True, blank=True)
     company_location = models.CharField(max_length=255, null=True, blank=True)
-    # company_domain = models.CharField(max_length=255, unique=True)
     company_domain = models.CharField(max_length=255, unique=True, null=True)
     logo_url = models.URLField(max_length=255, null=True, blank=True)
     company_linkedin = models.URLField(max_length=255, null=True, blank=True)
@@ -42,19 +39,9 @@ class Account(models.Model):
     company_video_url = models.URLField(max_length=255, null=True, blank=True)
     viewed_employer_welcome = models.TextField(null=True, blank=True)
     viewed_employer_tutorial = models.TextField(null=True, blank=True)
-    # stripe_customer_id = models.CharField(max_length=255, unique=True)
     stripe_customer_id = models.CharField(max_length=255, unique=True, null=True)
+    stripe_subscription_id = models.CharField(max_length=255, unique=True, null=True, blank=True)
 
-    stripe_subscription_id = models.CharField(
-        max_length=255, unique=True, null=True, blank=True)
-    
-    '''
-    trial_starts_at = models.DateTimeField()
-    trial_end_at = models.DateTimeField()
-    is_free_trial = models.BooleanField(default=True)
-    payg_credit = models.IntegerField(default=0)
-    '''
-    
     trial_starts_at = models.DateTimeField(null=True)
     trial_end_at = models.DateTimeField(null=True)
     is_free_trial = models.BooleanField(default=True)
@@ -99,55 +86,29 @@ class Role(models.Model):
 # Description: Manages invitations to join a team. Fields could include invitation ID, team ID, invitee email, status of the invitation, etc.
 # When generating the invitation, we can consider this Model to come up a form / info.
 class TeamInvitation(models.Model):
-    # user = models.ForeignKey(
-    #    CustomUser, on_delete=models.CASCADE, related_name='team_invitations')
-    user = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, related_name='team_invitations', null=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='team_invitations', null=True)
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
     invited_email = models.EmailField()
     is_accepted = models.BooleanField(default=False)
-    invited_by_user = models.ForeignKey(
-        CustomUser, on_delete=models.SET_NULL, null=True, blank=True, related_name='sent_invitations')
-    # role = models.ForeignKey(Role, on_delete=models.CASCADE)
+    invited_by_user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True, related_name='sent_invitations')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
 
+    
     class Meta:
         indexes = [
             models.Index(fields=['user']),
             models.Index(fields=['account']),
             models.Index(fields=['invited_email']),
             models.Index(fields=['is_accepted']),
-            # models.Index(fields=['role']),
         ]
-    
-    
-        
-        
-
-'''
-# Description: Stores the teams within an account. Could include team ID, account ID, and the team name.
-class HiringTeam(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    job = models.ForeignKey('job_management.Job', on_delete=models.CASCADE)
-    team_name = models.CharField(max_length=255, unique=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        indexes = [
-            models.Index(fields=['user']),
-            models.Index(fields=['job']),
-        ]
-'''
 
 # Description: Corresponding to the User_Account Table in the database design.
 # This table connects a user to a company account
 class UserAccount(models.Model):
-    user = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, related_name="user_account")
-    account = models.ForeignKey(
-        Account, on_delete=models.CASCADE, related_name="user_account")
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="user_account")
+    account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name="user_account")
     is_email_confirmed = models.BooleanField(default=True) # !!! Need further explanation
     status = models.CharField(max_length=255, unique=True, null=True) # !!! Need further explanation
     created_at = models.DateTimeField(auto_now_add=True)

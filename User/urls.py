@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import dashboard, JoinAccountView
+from .views import dashboard, CustomRegistrationView
 
 urlpatterns = [
     path('', dashboard, name='homepage'),
-    path('join_account', JoinAccountView.as_view(), name='join-account'),
+    path('accounts/signup/', CustomRegistrationView.as_view(), name='custom_signup'),
 ]
