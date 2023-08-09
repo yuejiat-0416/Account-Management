@@ -1,19 +1,17 @@
-from typing import Any, Dict
-from django.forms.models import BaseModelForm
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
+# django
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.contrib import messages
+from django.views.generic import FormView
 
+# Account model
 from .models import Account, UserAccount, TeamInvitation
-from django.views.generic import FormView, View
-from .forms import CustomInviteForm
+
+# django invitations
 from invitations.forms import InviteForm
 from invitations.utils import get_invitation_model
-
-
 
 Invitation = get_invitation_model()
 
@@ -26,19 +24,14 @@ class CreateAccountView(CreateView):
     # form_class = AccountForm
     
     def form_valid(self, form):
-
         self.object = form.save()
-        user_account = UserAccount.objects.create(
-            user=self.request.user,
-            account=self.object
-        )
+        user_account = UserAccount.objects.create(user = self.request.user, account = self.object)
         user_account.save()
+        messages.success(self.request, "Successfully Create Company!")
         return super().form_valid(form)
     
     def get_success_url(self) -> str:
         return reverse_lazy('homepage')
-
-
 
 # Description: Send email invitation
 class SendInviteView(FormView):
@@ -52,26 +45,35 @@ class SendInviteView(FormView):
     def form_valid(self, form):
         email = form.cleaned_data["email"]
 
+        user_account = UserAccount.objects.filter(user=self.request.user).first()
+        if not user_account:
+            # If user_account doesn't exist, log the error and handle the response.
+            print('SendInviteView Error: UserAccount for user {user} does not exist'.format(user=self.request.user))
+            return self.form_invalid(form)
+        
+        # If user_account exists, continue with the invitation process
         try:
-            user_account = UserAccount.objects.get(user=self.request.user)
+            # Store the invitation in the database
             team_invitation = TeamInvitation.objects.create(
                 invited_email=email, 
                 invited_by_user=self.request.user,
                 account=user_account.account)
             team_invitation.save()
-            
-            
-            invite = form.save(email)
+
+            invite = form.save(email) 
             invite.inviter = self.request.user
             invite.save()
             invite.send_invitation(self.request)
-        except Exception:
+
+        except Exception as e:
+            print('SendInviteView Error: ' + str(e))
             return self.form_invalid(form)
-        return self.render_to_response(
-            self.get_context_data(
-                success_message=("%(email)s has been invited") % {"email": email},
-            ),
-        )
+        
+        messages.success(self.request, "Successfully Invite a New User!")
+        return super().form_valid(form)
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
+    
+    def get_success_url(self) -> str:
+        return reverse_lazy('homepage')
