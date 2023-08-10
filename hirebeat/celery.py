@@ -3,9 +3,9 @@ from celery import Celery
 from django.conf import settings
 
 # Set the default Django settings module for the 'celery' program.
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'your_project_name.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hirebeat.settings')
 
-app = Celery('your_project_name')
+app = Celery('hirebeat')
 
 # Load task modules from all registered Django apps.
 app.config_from_object('django.conf:settings', namespace='CELERY')
