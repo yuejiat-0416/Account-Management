@@ -109,7 +109,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'hirebeat.wsgi.application'
 
-
+# docker 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -120,6 +120,18 @@ DATABASES = {
         'PORT': os.environ.get('DATABASE_PORT', '5432'),
     }
 }
+
+# local
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'hiredatabase',
+#         'USER': 'hirebeatdatabase',
+#         'PASSWORD': '1234567',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 
 
 # Password validation

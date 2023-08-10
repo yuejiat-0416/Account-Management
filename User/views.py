@@ -2,6 +2,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.core.exceptions import ObjectDoesNotExist
 
 # django-allauth
 from allauth.account.views import SignupView
@@ -35,8 +36,11 @@ class CustomRegistrationView(SignupView):
             invitation.is_accepted = True
             invitation.save()
             
+        except ObjectDoesNotExist:
+            print('Register Error: TeamInvitation matching query does not exist')
         except Exception as e:
-            print('Register Error: ' + str(e))
+            # catch any other exceptions
+            print('Another error occurred: ' + str(e))
             return self.form_invalid(form)
         
         return response
