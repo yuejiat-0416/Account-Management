@@ -38,20 +38,18 @@ class CreateAccountView(CreateView):
         return reverse_lazy('homepage')
 
 # Description: Send email invitation
-class SendInviteView(CreateView):
+class SendInviteView(FormView):
     template_name = "invitations/forms/_invite.html"
-    model = TeamInvitation
-    fields = ["invited_email", "role"]
+    form_class = CustomInviteForm
     
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        email = form.cleaned_data["invited_email"]
-        print('hi')
-
-        role = form.cleaned_data["role"]
+        email = form.cleaned_data["email"]
+        role_type = form.cleaned_data["role"]
+        role = Role.objects.get(role_type=role_type)
 
         user_account = UserAccount.objects.filter(user=self.request.user).first()
         if not user_account:
