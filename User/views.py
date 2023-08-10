@@ -20,6 +20,12 @@ class CustomRegistrationView(SignupView):
         print("Custom registration view accessed via POST")
         return super().post(request, *args, **kwargs)
     
+    
+    '''
+    To-do: Check if the registration happened through an invitation link
+            a. if not: create a UserRole instance with the role set to "admin"
+            b. if so: set the role according to the TeamInvitation instance.
+    '''
     def form_valid(self, form):
         # Use the original behavior of the registration to save the user
         response = super().form_valid(form)

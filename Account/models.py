@@ -87,7 +87,7 @@ class Role(models.Model):
 # When generating the invitation, we can consider this Model to come up a form / info.
 class TeamInvitation(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='team_invitations', null=True)
-    account = models.ForeignKey(Account, on_delete=models.CASCADE)
+    account = models.ForeignKey(Account, on_delete=models.CASCADE, null=True)
     invited_email = models.EmailField()
     is_accepted = models.BooleanField(default=False)
     invited_by_user = models.ForeignKey(

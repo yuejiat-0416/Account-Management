@@ -6,12 +6,14 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.views.generic import FormView
 
-# Account model
-from .models import Account, UserAccount, TeamInvitation
+# Account model & forms
+from .models import Account, UserAccount, TeamInvitation, UserRole
+from .forms import CustomInviteForm
 
 # django invitations
 from invitations.forms import InviteForm
 from invitations.utils import get_invitation_model
+from invitations.views import SendInvite
 
 Invitation = get_invitation_model()
 
@@ -34,16 +36,20 @@ class CreateAccountView(CreateView):
         return reverse_lazy('homepage')
 
 # Description: Send email invitation
-class SendInviteView(FormView):
+class SendInviteView(CreateView):
     template_name = "invitations/forms/_invite.html"
-    form_class = InviteForm
-
+    model = TeamInvitation
+    fields = ["invited_email", "role"]
+    
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        email = form.cleaned_data["email"]
+        email = form.cleaned_data["invited_email"]
+        print('hi')
+
+        role = form.cleaned_data["role"]
 
         user_account = UserAccount.objects.filter(user=self.request.user).first()
         if not user_account:
@@ -57,12 +63,11 @@ class SendInviteView(FormView):
             team_invitation = TeamInvitation.objects.create(
                 invited_email=email, 
                 invited_by_user=self.request.user,
-                account=user_account.account)
+                account=user_account.account,
+                role=role)
             team_invitation.save()
-
-            invite = form.save(email) 
-            invite.inviter = self.request.user
-            invite.save()
+            
+            invite = Invitation.create(email, inviter=self.request.user)
             invite.send_invitation(self.request)
 
         except Exception as e:
@@ -77,3 +82,6 @@ class SendInviteView(FormView):
     
     def get_success_url(self) -> str:
         return reverse_lazy('homepage')
+    
+    
+# Each instance of Roles should be created by the site admin?

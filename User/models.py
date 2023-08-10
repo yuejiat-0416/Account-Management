@@ -8,7 +8,7 @@ class CustomUser(AbstractUser):
     deactivated_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    is_account_admin = models.BooleanField(default=False)
+    is_account_admin = models.BooleanField(default=True)
     is_site_admin = models.BooleanField(default=False)
     groups = models.ManyToManyField(Group, related_name='user_management_users')
     user_permissions = models.ManyToManyField(Permission, related_name='user_management_users')
