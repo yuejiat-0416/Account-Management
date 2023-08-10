@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.views.generic import FormView
 
 # Account model & forms
-from .models import Account, UserAccount, TeamInvitation, UserRole
+from .models import Account, UserAccount, TeamInvitation, UserRole, Role
 from .forms import CustomInviteForm
 
 # django invitations
@@ -27,7 +27,9 @@ class CreateAccountView(CreateView):
     
     def form_valid(self, form):
         self.object = form.save()
+        admin_role = Role.objects.get(role_name="admin")
         user_account = UserAccount.objects.create(user = self.request.user, account = self.object)
+        user_role = UserRole.objects.create(user=self.request.user, role=admin_role)
         user_account.save()
         messages.success(self.request, "Successfully Create Company!")
         return super().form_valid(form)

@@ -7,7 +7,7 @@ from django.urls import reverse
 from allauth.account.views import SignupView
 
 # django-invitations
-from Account.models import UserAccount
+from Account.models import UserAccount, UserRole
 from Account.models import TeamInvitation, UserAccount
 
 
@@ -23,8 +23,7 @@ class CustomRegistrationView(SignupView):
     
     '''
     To-do: Check if the registration happened through an invitation link
-            a. if not: create a UserRole instance with the role set to "admin"
-            b. if so: set the role according to the TeamInvitation instance.
+            if so: set the role according to the TeamInvitation instance.
     '''
     def form_valid(self, form):
         # Use the original behavior of the registration to save the user
@@ -36,6 +35,7 @@ class CustomRegistrationView(SignupView):
 
             # Create a UserAccount object linking the new user to the company
             UserAccount.objects.create(user = self.user, account = invitation.account)
+            UserRole.objects.create(user=self.user, role=invitation.role)
 
             # Mark the invitation as used
             invitation.is_accepted = True
