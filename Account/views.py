@@ -39,6 +39,8 @@ class CreateAccountView(CreateView):
 # Description: Send email invitation
 class SendInviteView(FormView):
     template_name = "invitations/forms/_invite.html"
+    # template_name = "User/dashboard.html"
+
     form_class = InviteForm
 
     @method_decorator(login_required)
