@@ -15,6 +15,9 @@ from invitations.forms import InviteForm
 from invitations.utils import get_invitation_model
 from invitations.views import SendInvite
 
+# Celery task
+from Account.tasks import send_invitation_task
+
 Invitation = get_invitation_model()
 
 # Description: For logged-in user to register their company information
@@ -41,7 +44,7 @@ class CreateAccountView(CreateView):
 class SendInviteView(FormView):
     template_name = "invitations/forms/_invite.html"
     form_class = CustomInviteForm
-    
+
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
@@ -66,10 +69,22 @@ class SendInviteView(FormView):
                 account=user_account.account,
                 role=role)
             team_invitation.save()
+# email-invitation
             
             invite = Invitation.create(email, inviter=self.request.user)
             invite.send_invitation(self.request)
+# 
 
+            invite = form.save(email) 
+            invite.inviter = self.request.user
+            invite.save()
+            # invite.send_invitation(self.request)
+# celery
+
+            # schedule the task to run in the background with Celery
+            scheme = 'https' if self.request.is_secure() else 'http'
+            send_invitation_task.delay(invite.id, scheme, self.request.get_host())
+            
         except Exception as e:
             print('SendInviteView Error: ' + str(e))
             return self.form_invalid(form)

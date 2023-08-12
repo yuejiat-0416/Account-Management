@@ -1,3 +1,5 @@
+<h4 class="title">{% trans "Invite" %}</h4>
+
 {% if request.user.is_authenticated %}
 
     <form action="" method="post" >
@@ -5,6 +7,9 @@
         {{ form.as_p }}
         <input type="submit" class="button blue" value="Submit">
     </form>
+
+<span class="alert alert-info">{% trans "Please add an email below. The user will receive an email with register link." %}</span>
+
 
 {% else %}
     <p> You need to log in First </p>
