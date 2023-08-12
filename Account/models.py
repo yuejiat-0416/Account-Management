@@ -2,7 +2,7 @@
 # This would include details of the organizations or individuals or user invitation using the system.
 import datetime
 from django.db import models
-from User.models import CustomUser
+from User.models import CustomUser, Permission
 from django.utils.crypto import get_random_string
 from django.contrib.sites.shortcuts import get_current_site
 import uuid
@@ -90,11 +90,11 @@ class TeamInvitation(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE)
     invited_email = models.EmailField()
     is_accepted = models.BooleanField(default=False)
-    invited_by_user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True, related_name='sent_invitations')
+    invited_by_user = models.ForeignKey(
+        CustomUser, on_delete=models.SET_NULL, null=True, blank=True, related_name='sent_invitations')
+    role = models.ForeignKey(Role, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
-
     
     class Meta:
         indexes = [
@@ -118,4 +118,31 @@ class UserAccount(models.Model):
         indexes = [
             models.Index(fields=['user']),
             models.Index(fields=['account']),
+        ]
+        
+
+class UserRole(models.Model):
+    user = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, related_name="user_role")
+    role = models.ForeignKey(Role, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=['user']),
+            models.Index(fields=['role']),
+        ]
+        
+
+class RolePermission(models.Model):
+    role = models.ForeignKey(Role, on_delete=models.CASCADE)
+    permission = models.ForeignKey(Permission, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=['role']),
+            models.Index(fields=['permission']),
         ]

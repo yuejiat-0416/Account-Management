@@ -6,12 +6,14 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.views.generic import FormView
 
-# Account model
-from .models import Account, UserAccount, TeamInvitation
+# Account model & forms
+from .models import Account, UserAccount, TeamInvitation, UserRole, Role
+from .forms import CustomInviteForm
 
 # django invitations
 from invitations.forms import InviteForm
 from invitations.utils import get_invitation_model
+from invitations.views import SendInvite
 
 # Celery task
 from Account.tasks import send_invitation_task
@@ -28,7 +30,9 @@ class CreateAccountView(CreateView):
     
     def form_valid(self, form):
         self.object = form.save()
+        admin_role = Role.objects.get(role_name="admin")
         user_account = UserAccount.objects.create(user = self.request.user, account = self.object)
+        user_role = UserRole.objects.create(user=self.request.user, role=admin_role)
         user_account.save()
         messages.success(self.request, "Successfully Create Company!")
         return super().form_valid(form)
@@ -39,9 +43,7 @@ class CreateAccountView(CreateView):
 # Description: Send email invitation
 class SendInviteView(FormView):
     template_name = "invitations/forms/_invite.html"
-    # template_name = "User/dashboard.html"
-
-    form_class = InviteForm
+    form_class = CustomInviteForm
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -49,6 +51,8 @@ class SendInviteView(FormView):
 
     def form_valid(self, form):
         email = form.cleaned_data["email"]
+        role_type = form.cleaned_data["role"]
+        role = Role.objects.get(role_type=role_type)
 
         user_account = UserAccount.objects.filter(user=self.request.user).first()
         if not user_account:
@@ -62,13 +66,20 @@ class SendInviteView(FormView):
             team_invitation = TeamInvitation.objects.create(
                 invited_email=email, 
                 invited_by_user=self.request.user,
-                account=user_account.account)
+                account=user_account.account,
+                role=role)
             team_invitation.save()
+# email-invitation
+            
+            invite = Invitation.create(email, inviter=self.request.user)
+            invite.send_invitation(self.request)
+# 
 
             invite = form.save(email) 
             invite.inviter = self.request.user
             invite.save()
             # invite.send_invitation(self.request)
+# celery
 
             # schedule the task to run in the background with Celery
             scheme = 'https' if self.request.is_secure() else 'http'
@@ -86,3 +97,6 @@ class SendInviteView(FormView):
     
     def get_success_url(self) -> str:
         return reverse_lazy('homepage')
+    
+    
+# Each instance of Roles should be created by the site admin?

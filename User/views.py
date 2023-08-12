@@ -8,7 +8,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from allauth.account.views import SignupView
 
 # django-invitations
-from Account.models import UserAccount
+from Account.models import UserAccount, UserRole
 from Account.models import TeamInvitation, UserAccount
 
 
@@ -21,6 +21,11 @@ class CustomRegistrationView(SignupView):
         print("Custom registration view accessed via POST")
         return super().post(request, *args, **kwargs)
     
+    
+    '''
+    To-do: Check if the registration happened through an invitation link
+            if so: set the role according to the TeamInvitation instance.
+    '''
     def form_valid(self, form):
         # Use the original behavior of the registration to save the user
         response = super().form_valid(form)
@@ -31,6 +36,7 @@ class CustomRegistrationView(SignupView):
 
             # Create a UserAccount object linking the new user to the company
             UserAccount.objects.create(user = self.user, account = invitation.account)
+            UserRole.objects.create(user=self.user, role=invitation.role)
 
             # Mark the invitation as used
             invitation.is_accepted = True
