@@ -15,4 +15,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app/
 
 # make migration
+# looks not working, have to use start.sh at docker-compos.yml
 CMD ["sh", "-c", "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]

@@ -13,7 +13,8 @@ class CustomInviteForm(InviteForm):
     )
     
     def save(self, email, role):
-        return TeamInvitation.objects.create(email=email, role=role)
+        return TeamInvitation.objects.create(invited_email=email, role=role)
+
     
     
 

@@ -1,3 +1,4 @@
+django-test-plus
 aiodns==3.0.0
 aiosmtpd==1.4.4.post2
 amqp==5.1.1

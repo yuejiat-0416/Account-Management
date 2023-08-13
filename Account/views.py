@@ -53,8 +53,9 @@ class SendInviteView(FormView):
         email = form.cleaned_data["email"]
         role_type = form.cleaned_data["role"]
         role = Role.objects.get(role_type=role_type)
-
         user_account = UserAccount.objects.filter(user=self.request.user).first()
+        print(user_account)
+        print(user_account.account)
         if not user_account:
             # If user_account doesn't exist, log the error and handle the response.
             print('SendInviteView Error: UserAccount for user {user} does not exist'.format(user=self.request.user))
@@ -69,29 +70,22 @@ class SendInviteView(FormView):
                 account=user_account.account,
                 role=role)
             team_invitation.save()
-# email-invitation
-            
-            invite = Invitation.create(email, inviter=self.request.user)
-            invite.send_invitation(self.request)
-# 
 
-            invite = form.save(email) 
-            invite.inviter = self.request.user
-            invite.save()
+            # not use celery
+            # invite = Invitation.create(email, inviter=self.request.user)
             # invite.send_invitation(self.request)
-# celery
-
-            # schedule the task to run in the background with Celery
-            scheme = 'https' if self.request.is_secure() else 'http'
-            send_invitation_task.delay(invite.id, scheme, self.request.get_host())
             
+            scheme = 'https' if self.request.is_secure() else 'http'
+            domain = self.request.get_host()
+            invite = Invitation.create(email,  inviter=self.request.user)
+            send_invitation_task.delay(invite.id, scheme, domain)
+
         except Exception as e:
             print('SendInviteView Error: ' + str(e))
             return self.form_invalid(form)
-        
+
         messages.success(self.request, "Successfully Invite a New User!")
         return super().form_valid(form)
-
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
     
