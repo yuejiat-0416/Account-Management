@@ -89,15 +89,12 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-8 offset-md-2 offset-lg-3">
                         {% if request.user.is_authenticated %}
-                            <form class="create-account-form" action="{% url 'create' %}" method="post" >
+                            <form class="signin-form" action="{% url 'create' %}" method="post" >
                                 {% csrf_token %}
                                 {% bootstrap_form form %}
-                                <div class = "signin-form">
-                                    <div class="signin-btn text-center">
-                                        <button type="submit">{% trans "Create Account" %}</button>
-                                    </div>
+                                <div class="signin-btn text-center">
+                                    <button type="submit">{% trans "Create Account" %}</button>
                                 </div>
-
                             </form>
                         {% else %}
                             <p> You need to log in First </p>
