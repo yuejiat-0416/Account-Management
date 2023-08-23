@@ -259,11 +259,8 @@
                         <div class="profile-thumb">
                             <img src="{% static 'assets/img/account.jpg' %}" alt="account holder image">
                             <!-- display username/name first name -->
-                            <h3>{{ request.user.username }}</h3>
-                            <!-- display company name / or default empty -->
-                            {% if company %}
-                            <p>Company: {{ company }}</p>
-                            {% endif %}
+                            <h3>{{ request.user.username }}</h3> 
+
                         </div>
 
                         {% if user.is_authenticated %}
@@ -277,6 +274,18 @@
                             <form id="createCompany" method="post" action="{% url 'create' %}">
                                 {% csrf_token %}
                             </form>
+                            <form id="addInformation" method="post" action="{% url 'information' %}">
+                                {% csrf_token %}
+                            </form>
+                            {% if company %}
+                            <li>
+                                <a href="javascript:void(0);"
+                                    onclick="document.getElementById('addInformation').submit();">
+                                    <i class='bx bx-briefcase'></i>
+                                    Add/Update Company Information
+                                </a>
+                            </li>
+                            {% else %}
                             <li>
                                 <a href="javascript:void(0);"
                                     onclick="document.getElementById('createCompany').submit();">
@@ -284,7 +293,7 @@
                                     Create Company
                                 </a>
                             </li>
-
+                            {% endif %}
                             <form id="inviteNew" method="post" action="{% url 'send-invite' %}">
                                 {% csrf_token %}
                             </form>
@@ -335,27 +344,60 @@
                         {% endif %}
                     </div>
                 </div>
-
+                
                 <div class="col-md-8">
                     <div class="account-details">
                         <h3>Basic Information</h3>
+
                         <form class="basic-info">
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Your Name</label>
-                                        <input type="text" class="form-control" placeholder="Your Name">
+                                        {% if company %}
+                                        <label>Your Company: {{ company }}</label>
+                                        {% endif %}
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Your Email</label>
-                                        <input type="email" class="form-control" placeholder="Your Email">
+                                        {% if role %}
+                                        <label>Your Role: {{ role }}</label>
+                                        {% endif %}
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        {% if company %}
+                                            {% if info %}
+                                            <div>Company Infomation</div>
+                                            <ul>
+                                                {% for i in info.items %}
+                                                    <li>{{ i }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                            {% endif %}
+                                        {% if members_roles %}
+                                            <div>Teammates</div>
+                                            <ul>
+                                                {% for member, roles in members_roles.items %}
+                                                    <li>{{ member.username }} - Roles: {{ roles|join:", " }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% else %}
+                                            <p>No members found for the company.</p>
+                                        {% endif %}
+                                        {% else %}
+                                            <p>No company found</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
                             </div>
+
                         </form>
+
                     </div>
                 </div>
             </div>
