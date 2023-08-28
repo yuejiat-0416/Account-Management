@@ -1,7 +1,9 @@
 # django 
+from .models import CustomUser
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.core.exceptions import ObjectDoesNotExist
 
 # django-allauth
 from allauth.account.views import SignupView
@@ -10,6 +12,8 @@ from allauth.account.views import SignupView
 from Account.models import UserAccount, UserRole
 from Account.models import TeamInvitation, UserAccount
 
+# utils
+from .utils import get_company_name, get_employer_profile_detail
 
 class CustomRegistrationView(SignupView):
     def get(self, request, *args, **kwargs):
@@ -41,8 +45,11 @@ class CustomRegistrationView(SignupView):
             invitation.is_accepted = True
             invitation.save()
             
+        except ObjectDoesNotExist:
+            print('Register Error: TeamInvitation matching query does not exist')
         except Exception as e:
-            print('Register Error: ' + str(e))
+            # catch any other exceptions
+            print('Another error occurred: ' + str(e))
             return self.form_invalid(form)
         
         return response
@@ -51,16 +58,33 @@ class CustomRegistrationView(SignupView):
         # default django allauth account login  
         return reverse('account_login') 
 
+# TODO: change to class view
 @login_required
 def dashboard(request):
     user_account = UserAccount.objects.filter(user=request.user).first()
-    company = None
-    if user_account:
-        company = user_account.account.company_name
+    company = get_company_name(request.user)
+    info = get_employer_profile_detail(request.user)
+    user_role = UserRole.objects.filter(user=request.user).first()
+    role = None;
+    if user_role:
+        role = user_role.role.role_name
+
+    members_roles = {}
+    if company:
+        company_instance = user_account.account
+        members = CustomUser.objects.filter(user_account__account=company_instance)
+        for member in members:
+            roles = UserRole.objects.filter(user=member).values_list('role__role_name', flat=True)
+            members_roles[member] = list(roles)
+
 
     context = {
         'section': 'dashboard',
-        'company': company
+        'company': company,
+        'role': role,
+        'members_roles': members_roles,
+        'info': info,
     }
+
 
     return render(request, 'User/dashboard.html', context)

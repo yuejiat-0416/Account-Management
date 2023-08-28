@@ -57,6 +57,9 @@ INSTALLED_APPS = [
     # django-invitations
     'invitations',
     
+    # Task result storage
+     'django_celery_results',
+    
 ]
 
 MIDDLEWARE = [
@@ -106,17 +109,37 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'hirebeat.wsgi.application'
 
-
+# docker 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+<<<<<<< HEAD
         'NAME': 'hb2023',
         'USER': 'hbuser',
         'PASSWORD': '123456',
         'HOST': 'localhost',
         'PORT': '5432',
+=======
+        'NAME': 'hiredatabase',
+        'USER': 'hirebeatdatabase',
+        'PASSWORD': '1234567',
+        'HOST': 'db',
+        'PORT': os.environ.get('DATABASE_PORT', '5432'),
+>>>>>>> 420dcff9cd52e32497837e629f183f294b0ff302
     }
 }
+
+# local
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'hiredatabase',
+#         'USER': 'hirebeatdatabase',
+#         'PASSWORD': '1234567',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 
 
 # Password validation
@@ -204,3 +227,13 @@ ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
 # INVITATION_MODEL = 'Account.models.TeamInvitation'
 # INVITE_FORM = 'Account.forms.InviteForm'
 BASE_URL = 'http://localhost:8000'
+
+# Celery configurations
+
+# local
+# CELERY_BROKER_URL = 'redis://localhost:6379/0'
+# docker 
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+
+# this uses django-celery-results to store results in the database
+CELERY_RESULT_BACKEND = 'django-db'  

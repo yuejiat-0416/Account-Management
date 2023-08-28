@@ -1,0 +1,190 @@
+[33mcommit 0c38a34bf48956ce4092854106f037e9d2473070[m[33m ([m[1;36mHEAD -> [m[1;32mcelery[m[33m, [m[1;31morigin/celery[m[33m)[m
+Merge: 89aed65 ce02e62
+Author: Zehao <139428423+zuchuandatou@users.noreply.github.com>
+Date:   Sat Aug 12 19:10:09 2023 -0400
+
+    Merge pull request #7 from yuejiat-0416/email-invitation
+    
+    Email invitation
+
+[33mcommit ce02e62456b506d4ca09d7b0b7cbed3b8b0d3810[m[33m ([m[1;31morigin/email-invitation[m[33m)[m
+Merge: bff5cae 89aed65
+Author: Zehao <139428423+zuchuandatou@users.noreply.github.com>
+Date:   Sat Aug 12 19:10:00 2023 -0400
+
+    Merge branch 'celery' into email-invitation
+
+[33mcommit 89aed651562ad84f45ee06e26f6b29fac220d4f1[m
+Author: zuchuandatou <zaclieI56@gmail.com>
+Date:   Fri Aug 11 02:23:37 2023 -0400
+
+    half done dashboard page
+
+[33mcommit bff5cae42a639946d4090f4089fded53a9b7968b[m
+Author: Yuejia Tong <yuejiat0416@gmail.com>
+Date:   Thu Aug 10 16:23:24 2023 -0400
+
+    update on email-invitation flow
+
+[33mcommit d5b52f067f1df9e8cd273d56a744c503c7209866[m
+Author: Yuejia Tong <yuejiat0416@gmail.com>
+Date:   Thu Aug 10 16:11:04 2023 -0400
+
+    update email-invitation flow
+
+[33mcommit 295e4a2ee3eca267314ef97ad5aed68d6a6cdf3f[m
+Author: Yuejia Tong <yuejiat0416@gmail.com>
+Date:   Thu Aug 10 15:34:24 2023 -0400
+
+    update invite form: add 'role' field
+
+[33mcommit 0534b61a88d76f80f92a743fea643ce70078b0c0[m
+Author: zuchuandatou <zaclieI56@gmail.com>
+Date:   Thu Aug 10 04:38:58 2023 -0400
+
+    add template to signup and confirmEmail
+
+[33mcommit 8424ce4894c068c732c046beb2223f8b5b8777ef[m
+Author: zuchuandatou <zaclieI56@gmail.com>
+Date:   Thu Aug 10 02:16:49 2023 -0400
+
+    add docker
+
+[33mcommit 5728db081e44bab0160216f1a82152af39640b78[m
+Merge: ee81fd8 a54963e
+Author: Yuejia Tong <yuejiat0416@gmail.com>
+Date:   Wed Aug 9 17:53:21 2023 -0400
+
+    Merge branch 'email-invitation' of https://github.com/yuejiat-0416/Account-Management into email-invitation
+
+[33mcommit ee81fd850305ec812cbdaa7e3287e29bb1ab01bb[m
+Author: Yuejia Tong <yuejiat0416@gmail.com>
+Date:   Wed Aug 9 17:45:59 2023 -0400
+
+    update models
+
+[33mcommit 9ee33acef56672e28fc5a2b18bd9c4c615bf30c4[m
+Author: zuchuandatou <zaclieI56@gmail.com>
+Date:   Wed Aug 9 02:07:39 2023 -0400
+
+    add celery.py
+
+[33mcommit a54963eabde67c95ff311e0b9866e4083409d56a[m[33m ([m[1;32memail-invitation[m[33m)[m
+Author: zuchuandatou <zaclieI56@gmail.com>
+Date:   Mon Aug 7 17:24:00 2023 -0400
+
+    add gitignore
+
+[33mcommit e54e2ba4fe9b13d8ca57d2b106a46a029801b4c5[m
+Author: zuchuandatou <zaclieI56@gmail.com>
+Date:   Mon Aug 7 17:05:24 2023 -0400
+
+    fix all merge comflicts and bugs
+
+[33mcommit 331730e0b9c23c87e5e44c702d2c836d8505bddb[m
+Merge: e1bb228 5d40e3d
+Author: Zehao <139428423+zuchuandatou@users.noreply.github.com>
+Date:   Mon Aug 7 16:54:58 2023 -0400
+
+    Merge pull request #5 from yuejiat-0416/frontend
+    
+    merge new frontend to development branch
+
+[33mcommit 5d40e3dd2915fc2239ef48b2ae95dcf6c6e7726d[m[33m ([m[1;31morigin/frontend[m[33m, [m[1;32mfrontend[m[33m)[m
+Merge: 6d6ffd6 e1bb228
+Author: Zehao <139428423+zuchuandatou@users.noreply.github.com>
+Date:   Mon Aug 7 16:54:26 2023 -0400
+
+    Merge branch 'email-invitation' into frontend
+
+[33mcommit 6d6ffd67bda617b99a9c06875970c5e4c434dccd[m
+Author: zuchuandatou <zaclieI56@gmail.com>
+Date:   Mon Aug 7 16:52:00 2023 -0400
+
+    try to solve confilct
+
+[33mcommit e1bb2285b0e330d4905bbe1cc6e2ed3cd9cae838[m
+Author: zuchuandatou <zaclieI56@gmail.com>
+Date:   Mon Aug 7 16:48:17 2023 -0400
+
+    try to resolve again
+
+[33mcommit 9bf8675ea8e1417c069b00870796264e41449a07[m
+Merge: b6d5623 8d2b56a
+Author: zuchuandatou <zaclieI56@gmail.com>
+Date:   Mon Aug 7 16:41:05 2023 -0400
+
+    remove .pyc files and resolve merge conflict
+
+[33mcommit 8d2b56acc3c74a136a0a167ad911ef9cbcf6eb44[m
+Author: zuchuandatou <zaclieI56@gmail.com>
+Date:   Mon Aug 7 16:20:02 2023 -0400
+
+    fix reverse bug
+
+[33mcommit ece8cedc24a150125d61e2763722b47f9a181f1c[m
+Author: zuchuandatou <zaclieI56@gmail.com>
+Date:   Mon Aug 7 02:59:43 2023 -0400
+
+    Implemented user invitation function, but minor bug exists on register/invite page
+
+[33mcommit 0832dc14265d63d9f3ef686ee0558ebd7a0a8c90[m
+Author: Yuejia Tong <yuejiat0416@gmail.com>
+Date:   Sun Aug 6 15:57:27 2023 -0400
+
+    implement Account, User-Account, and email invitation
+
+[33mcommit b6d5623f31a2a522daff6347b8c7607f2b174154[m
+Author: zuchuandatou <zaclieI56@gmail.com>
+Date:   Fri Aug 4 08:25:05 2023 -0400
+
+    Add new frontend template
+
+[33mcommit 25411c619e364c13980e5838e998dc87d330bd60[m[33m ([m[1;31morigin/testing[m[33m, [m[1;32mtesting[m[33m)[m
+Author: zuchuandatou <zaclieI56@gmail.com>
+Date:   Fri Aug 4 06:05:56 2023 -0400
+
+    Add new tests for user login
+
+[33mcommit 171da4c0c053a5872232e68c6f41260c1a7c6a8f[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 3069719 552722d
+Author: Yuejia Tong <yuejiat0416@gmail.com>
+Date:   Mon Jul 31 12:58:37 2023 -0400
+
+    Merge branch 'main' of https://github.com/yuejiat-0416/Account-Management
+
+[33mcommit 306971999e994c8029b50fbbc33c42f19331124e[m
+Author: Yuejia Tong <yuejiat0416@gmail.com>
+Date:   Mon Jul 31 12:58:17 2023 -0400
+
+    update settings
+
+[33mcommit 552722d00817a35e478526c8056bc1b3253d7fcc[m[33m ([m[1;32mmain[m[33m)[m
+Author: zuchuandatou <zaclieI56@gmail.com>
+Date:   Mon Jul 31 04:58:04 2023 -0400
+
+    add bootstrap5 style to all pages
+
+[33mcommit b5f3f548756ece4ba649ddb6de0568a3e797b0a2[m
+Author: zuchuandatou <zaclieI56@gmail.com>
+Date:   Wed Jul 26 16:55:57 2023 -0400
+
+    add css
+
+[33mcommit 89e7cb903462bf71015ea810cfe851e045a76c95[m
+Author: Yuejia Tong <101756281+yuejiat-0416@users.noreply.github.com>
+Date:   Tue Jul 25 21:49:49 2023 -0400
+
+    Update README.md
+
+[33mcommit cc1de8bb383bcbc48eedcd12ca515d56f7c81e5b[m
+Author: Yuejia Tong <yuejiat0416@gmail.com>
+Date:   Tue Jul 25 21:48:21 2023 -0400
+
+    Initial Account Management
+
+[33mcommit 84585657ed37d89614ab6f312d1d98adcfd719f0[m
+Author: Yuejia Tong <yuejiat0416@gmail.com>
+Date:   Tue Jul 25 21:46:45 2023 -0400
+
+    first commit
