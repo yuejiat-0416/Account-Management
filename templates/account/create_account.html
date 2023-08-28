@@ -1,11 +1,127 @@
-{% if request.user.is_authenticated %}
-    <form action="" method="post" >
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" class="button blue" value="Submit">
-    </form>
+{% load static %}
 
-{% else %}
-    <p> You need to log in First </p>
+<!doctype html>
+<html lang="zxx">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Bootstrap CSS -->
+        <!-- <link rel="stylesheet" href="assets/css/bootstrap.min.css"> -->
+        <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+        <!-- Owl Carousel CSS -->
+        <link rel="stylesheet" href="{% static 'assets/css/owl.carousel.min.css' %}">
+        <!-- Owl Carousel Theme Default CSS -->
+        <link rel="stylesheet" href="{% static 'assets/css/owl.theme.default.min.css' %}">
+        <!-- Box Icon CSS-->
+        <link rel="stylesheet" href="{% static 'assets/css/boxicon.min.css' %}">
+        <!-- Flaticon CSS-->
+        <link rel="stylesheet" href="{% static 'assets/fonts/flaticon/flaticon.css' %}">
+        <!-- Magnific CSS -->
+        <link rel="stylesheet" href="{% static 'assets/css/magnific-popup.css' %}">
+        <!-- Meanmenu CSS -->
+        <link rel="stylesheet" href="{% static 'assets/css/meanmenu.css' %}">
+        <!-- Nice Select CSS -->
+        <link rel="stylesheet" href="{% static 'assets/css/nice-select.css' %}">
+        <!-- Style CSS -->
+        <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+		<!-- Dark CSS -->
+        <link rel="stylesheet" href="{% static 'assets/css/dark.css' %}">
+		<!-- Responsive CSS -->
+		<link rel="stylesheet" href="{% static 'assets/css/responsive.css' %}">
+        <!-- Title CSS -->
+        <title>Jovie - Job Board & Portal HTML Template</title>
+        <!-- Favicon -->
+        <!-- <link rel="icon" type="image/png" href="assets/img/favicon.png">   -->
+        <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png' %}">
 
-{% endif %}
+    </head>
+
+    <body>
+        
+        <!-- Pre-loader Start -->
+		<div class="loader-content">
+            <div class="d-table">
+                <div class="d-table-cell">
+					<div class="sk-circle">
+						<div class="sk-circle1 sk-child"></div>
+						<div class="sk-circle2 sk-child"></div>
+						<div class="sk-circle3 sk-child"></div>
+						<div class="sk-circle4 sk-child"></div>
+						<div class="sk-circle5 sk-child"></div>
+						<div class="sk-circle6 sk-child"></div>
+						<div class="sk-circle7 sk-child"></div>
+						<div class="sk-circle8 sk-child"></div>
+						<div class="sk-circle9 sk-child"></div>
+						<div class="sk-circle10 sk-child"></div>
+						<div class="sk-circle11 sk-child"></div>
+						<div class="sk-circle12 sk-child"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+        <!-- Page Title Start -->
+        <section class="page-title title-bg12">
+            <div class="d-table">
+                <div class="d-table-cell">
+                    <h2>Create Account</h2>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li>Create Account</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="lines">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+        </section>
+        <!-- Page Title End -->
+        {% load i18n %}
+        {% load account socialaccount %}
+        {% load bootstrap5 %}
+
+        <div class="create-account pt-100 pb-70">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-8 offset-md-2 offset-lg-3">
+                        {% if request.user.is_authenticated %}
+                            <form class="create-account-form" action="{% url 'create' %}" method="post" >
+                                {% csrf_token %}
+                                {% bootstrap_form form %}
+                                <div class="create-btn text-center">
+                                    <button type="submit">{% trans "Create Account" %}</button>
+                                </div>
+                            </form>
+                        {% else %}
+                            <p> You need to log in First </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		<!-- jQuery first, then Bootstrap JS -->
+		<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+		<script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+		<!-- Owl Carousel JS -->
+		<script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+		<!-- Nice Select JS -->
+		<script src="{% static 'assets/js/jquery.nice-select.min.js' %}"></script>
+		<!-- Magnific Popup JS -->
+		<script src="{% static 'assets/js/jquery.magnific-popup.min.js' %}"></script>
+		<!-- Subscriber Form JS -->
+		<script src="{% static 'assets/js/jquery.ajaxchimp.min.js' %}"></script>
+		<!-- Form Velidation JS -->
+		<script src="{% static 'assets/js/form-validator.min.js' %}"></script>
+		<!-- Contact Form -->
+		<script src="{% static 'assets/js/contact-form-script.js' %}"></script>
+		<!-- Meanmenu JS -->
+		<script src="{% static 'assets/js/meanmenu.js' %}"></script>
+		<!-- Custom JS -->
+		<script src="{% static 'assets/js/custom.js' %}"></script>
+  	</body>
+</html>
