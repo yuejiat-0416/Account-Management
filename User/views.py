@@ -57,7 +57,9 @@ class CustomRegistrationView(SignupView):
     def get_success_url(self):
         # default django allauth account login  
         return reverse('account_login') 
-
+    
+    
+'''
 # TODO: change to class view
 @login_required
 def dashboard(request):
@@ -88,3 +90,30 @@ def dashboard(request):
 
 
     return render(request, 'User/dashboard.html', context)
+'''
+
+
+@login_required
+def dashboard(request):
+    user_role, role = None, None
+    company = get_company_name(request)
+    if company:
+        user_role = UserRole.objects.filter(user=request.user).first()
+    if user_role:
+        role = user_role.role.role_name
+
+    context = {
+        'section': 'dashboard',
+        'company': company,
+        'role': role,
+    }
+
+    return render(request, 'User/dashboard.html', context)
+
+
+@login_required
+def get_company_name(request):
+    user_account = UserAccount.objects.filter(user=request.user).first()
+    if user_account:
+        return user_account.account.company_name
+    return None

@@ -72,6 +72,17 @@ class UpdateAccountInformationView(UpdateView):
 
         if account_object:
             # Manually update fields if needed
+            if not form.cleaned_data.get('company_name'):
+                return super().form_invalid(form)
+            account_object.company_email = form.cleaned_data.get('company_email')
+            account_object.company_name = form.cleaned_data.get('company_name')
+            account_object.account_status = form.cleaned_data.get('account_status')
+            account_object.company_summary = form.cleaned_data.get('company_summary')
+            account_object.company_industry = form.cleaned_data.get('company_industry')
+            account_object.company_website = form.cleaned_data.get('company_website')
+            account_object.company_location = form.cleaned_data.get('company_location')
+            account_object.company_domain = form.cleaned_data.get('company_domain')
+            account_object.company_size_range = form.cleaned_data.get('company_size_range')
             account_object.company_facebook = form.cleaned_data.get('company_facebook')
             account_object.company_linkedin = form.cleaned_data.get('company_linkedin')
             account_object.company_twitter = form.cleaned_data.get('company_twitter')
@@ -91,8 +102,6 @@ class UpdateAccountInformationView(UpdateView):
         
         return super().form_valid(form)
 
-        
-        return super().form_valid(form)
 
 
 

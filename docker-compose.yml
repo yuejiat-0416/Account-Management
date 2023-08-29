@@ -36,6 +36,7 @@ services:
   db:
     image: postgres:13
     environment:
+
       POSTGRES_DB: hiredatabase
       POSTGRES_USER: hirebeatdatabase
       POSTGRES_PASSWORD: 1234567

@@ -31,7 +31,7 @@ class Account(models.Model):
     company_size_range = models.CharField(max_length=255, null=True, blank=True, choices=COMPANY_SIZE_RANGE_CHOICES)
     company_website = models.URLField(max_length=255, null=True, blank=True)
     company_location = models.CharField(max_length=255, null=True, blank=True)
-    company_domain = models.CharField(max_length=255, unique=True, null=True)
+    company_domain = models.CharField(max_length=255, unique=True, null=True, blank=True)
     logo_url = models.URLField(max_length=255, null=True, blank=True)
     company_linkedin = models.URLField(max_length=255, null=True, blank=True)
     company_facebook = models.URLField(max_length=255, null=True, blank=True)

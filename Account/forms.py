@@ -19,8 +19,18 @@ class AccountInformationForm(forms.ModelForm):
     class Meta:
         model = Account
         fields = [
-             'company_domain',
-            'company_linkedin', 'company_facebook', 'company_twitter'
+            'company_email',
+            'company_name',
+            'account_status',
+            'company_summary',
+            'company_industry',
+            'company_size_range',
+            'company_website',
+            'company_location',          
+            'company_domain',
+            'company_linkedin', 
+            'company_facebook', 
+            'company_twitter',
         ]
     
 

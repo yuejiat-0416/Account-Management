@@ -113,19 +113,12 @@ WSGI_APPLICATION = 'hirebeat.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-<<<<<<< HEAD
-        'NAME': 'hb2023',
-        'USER': 'hbuser',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',
-        'PORT': '5432',
-=======
         'NAME': 'hiredatabase',
         'USER': 'hirebeatdatabase',
         'PASSWORD': '1234567',
+
         'HOST': 'db',
         'PORT': os.environ.get('DATABASE_PORT', '5432'),
->>>>>>> 420dcff9cd52e32497837e629f183f294b0ff302
     }
 }
 
