@@ -19,5 +19,7 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('User.urls')),
+    path("invitations/", include('invitations.urls', namespace='invitations')),
     path('accounts/', include('allauth.urls')),
+    path('account/', include('Account.urls')), # Need to verify if the user is logged in or not (refer to User's dashboard template)
 ]

@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: gunicorn hirebeat.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+
+  celery:
+    build: ./
+    command:
+      [
+        "celery",
+        "-A",
+        "hirebeat.celery:app",
+        "worker",
+        "--loglevel=debug"
+      ]
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
+
+  redis:
+    image: "redis:alpine"
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: hiredatabase
+      POSTGRES_USER: hirebeatdatabase
+      POSTGRES_PASSWORD: 1234567
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
